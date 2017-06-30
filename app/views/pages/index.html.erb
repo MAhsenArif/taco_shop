@@ -11,10 +11,14 @@
       <label>Meat</label>
       <div class="form-group">
         <label class="radio-inline">
-          <input type="radio" name="meat" value="chicken" ng-model="tc.newTaco.meat"> Chicken
+          <input type="radio" name="meat" value="chicken" ng-model="tc.newTaco.meat" ng-click="tc.clearOther()"> Chicken
         </label>
         <label class="radio-inline">
-          <input type="radio" name="meat" value="steak" ng-model="tc.newTaco.meat"> Steak
+          <input type="radio" name="meat" value="steak" ng-model="tc.newTaco.meat" ng-click="tc.clearOther()"> Steak
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="meat" ng-click="tc.setOther()"> Other
+          <input type="text" name="meat" ng-show="tc.other" ng-model="tc.newTaco.meat">
         </label>
       </div>
 

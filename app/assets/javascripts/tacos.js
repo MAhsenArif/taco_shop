@@ -76,44 +76,55 @@ function pushNext(tc, taco) {
 }
 
 app.controller('TacosCtrl', function(TacoService) {
-var tc = this;
+  var tc = this;
 
-// Load the list of tacos we already have
-TacoService.getTacos().then(function(tacos) {
-  generateTacosList(tc, tacos);
-}).catch(function(err) {
-  tc.listError = TacoService.handleErrorObject(err);
-});
-
-// Create a default taco for new tacos
-var defaultTaco = {
-  meat: 'chicken',
-  rice: false,
-  salsa: false,
-  notes: ''
-};
-tc.newTaco = _.clone(defaultTaco);
-
-tc.createTaco = function() {
-  tc.createError = null;
-  tc.creatingTaco = true;
-  TacoService.createTaco(tc.newTaco).then(function(taco) {
-    pushNext(tc, taco);
-    tc.newTaco = _.clone(defaultTaco);
+  // Load the list of tacos we already have
+  TacoService.getTacos().then(function(tacos) {
+    generateTacosList(tc, tacos);
   }).catch(function(err) {
-    tc.createError = TacoService.handleErrorObject(err);
-  }).finally(function() {
-    tc.creatingTaco = false;
-  })
-};
-
-tc.deleteTaco = function(taco) {
-  tc.deleteError = null;
-  TacoService.deleteTaco(taco.id).then(function() {
-    var index = tc.tacos.findIndex(x => x.id == taco.id)
-    tc.tacos.splice(index, 1);
-  }).catch(function(err) {
-    tc.deleteError = TacoService.handleErrorObject(err);
+    tc.listError = TacoService.handleErrorObject(err);
   });
-};
+
+  // Create a default taco for new tacos
+  var defaultTaco = {
+    meat: 'chicken',
+    rice: false,
+    salsa: false,
+    notes: ''
+  };
+  tc.newTaco = _.clone(defaultTaco);
+  tc.other = false;
+
+  tc.createTaco = function() {
+    tc.createError = null;
+    tc.creatingTaco = true;
+    TacoService.createTaco(tc.newTaco).then(function(taco) {
+      pushNext(tc, taco);
+      tc.newTaco = _.clone(defaultTaco);
+      tc.other = false;
+    }).catch(function(err) {
+      tc.createError = TacoService.handleErrorObject(err);
+    }).finally(function() {
+      tc.creatingTaco = false;
+    })
+  };
+
+  tc.deleteTaco = function(taco) {
+    tc.deleteError = null;
+    TacoService.deleteTaco(taco.id).then(function() {
+      var index = tc.tacos.findIndex(x => x.id == taco.id)
+      tc.tacos.splice(index, 1);
+    }).catch(function(err) {
+      tc.deleteError = TacoService.handleErrorObject(err);
+    });
+  };
+
+  tc.clearOther = function() {
+    tc.other = false;
+  }
+
+  tc.setOther = function() {
+    tc.other = true;
+    tc.newTaco.meat = null;
+  }
 });
