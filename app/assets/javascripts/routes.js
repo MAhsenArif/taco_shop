@@ -3,7 +3,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
   var index = {
     cache: false,
     url: '/',
-    templateUrl: 'tacos',
+    templateUrl: 'pages',
     controller: 'TacosCtrl'
   };
 
