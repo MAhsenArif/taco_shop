@@ -47,8 +47,18 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+
+production_default: &production_default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
 production:
-  <<: *default
-  database: taco_shop_production
-  username: taco_shop
+  <<: *production_default
+  database: <%= ENV['TACO_SHOP_DATABASE'] %>
+  username: <%= ENV['TACO_SHOP_DATABASE_USERNAME'] %>
   password: <%= ENV['TACO_SHOP_DATABASE_PASSWORD'] %>
+  host: ec2-23-23-225-12.compute-1.amazonaws.com
+  port: 5432
