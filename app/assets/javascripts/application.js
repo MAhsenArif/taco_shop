@@ -12,5 +12,7 @@
 //
 //= require angular
 //= require angular-ui-router
+//= require main
+//= require routes
 //= require turbolinks
 //= require_tree .
